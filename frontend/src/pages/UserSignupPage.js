@@ -1,6 +1,6 @@
 import React from "react";
 import{signup} from '../api/apiCalls';
-import Inputi from "../components/inputi";
+import Input from "../components/Input";
 
 class UserSignupPage extends React.Component {
 
@@ -14,7 +14,7 @@ class UserSignupPage extends React.Component {
     }
 
     onChange=event=>{
-        const {name,value} = event.target; 
+        const {name,value} = event.target;
         const errors = {...this.state.errors}
         errors[name] =undefined;
         this.setState({
@@ -42,13 +42,13 @@ class UserSignupPage extends React.Component {
 //     });
 
 try {
-    
+
     const response = await signup(body);
 } catch (error) {
    if(error.response.data.validationErrors){
     this.setState({errors:error.response.data.validationErrors});
    }
-  
+
 }
 this.setState({pendingApiCall:false});
    }
@@ -61,13 +61,13 @@ this.setState({pendingApiCall:false});
             <div className="container">
                 <form>
                 <h1 className="text-center">Sign Up</h1>
-                
-                <Inputi name="username" label="Username" error={username}  onChange={this.onChange} />
-                <Inputi name="displayName" label="Display Name" error={displayName}  onChange={this.onChange} />
-                <Inputi name="password" label="Password" error={password}  onChange={this.onChange}  type="password"/>
-            
-               
-                
+
+                <Input name="username" label="Username" error={username}  onChange={this.onChange} />
+                <Input name="displayName" label="Display Name" error={displayName}  onChange={this.onChange} />
+                <Input name="password" label="Password" error={password}  onChange={this.onChange}  type="password"/>
+
+
+
                 <div className="form-group">
                     <label>Password Repeat</label>
                     <input className="form-control" name="passwordRepeat" type="password"  onChange={this.onChange}  />
@@ -82,7 +82,7 @@ this.setState({pendingApiCall:false});
             </form>
 
             </div>
-            
+
         );
     }
 }
