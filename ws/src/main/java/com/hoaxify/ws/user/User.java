@@ -18,7 +18,10 @@ public class User {
 	@GeneratedValue
 	private long id;
 	
-	@NotNull
+	@NotNull(
+			//message="Username cannot be null"
+			message =" {mivitir.constraints.username.NotNull.message}"
+			)
 	@Size(min = 4, max = 255)
 	//@Column(unique = true) custom hale getircegiz
 	@UniqueUsername
@@ -30,7 +33,7 @@ public class User {
 	
 	@NotNull
 	@Size(min = 8, max = 255)
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{mivitir.constraint.passsword.Pattern.message}")
 	private String password;
 
 }
