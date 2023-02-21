@@ -1,5 +1,5 @@
 import React from "react";
-import{signup,changeLanguage} from '../api/apiCalls';
+import{signup} from '../api/apiCalls';
 import Input from "../components/Input";
 import {withTranslation} from 'react-i18next';
 
@@ -37,40 +37,34 @@ class UserSignupPage extends React.Component {
     }
 
    onclickSignup = async event =>{
-        event.preventDefault();
-        const{username,displayName,password} = this.state;
-        const body ={
-            username,
-            displayName,
-            password
+      event.preventDefault();
+      const{username,displayName,password} = this.state;
+            const body ={
+                username,
+                displayName,
+                password
+            }
+
+      this.setState({pendingApiCall:true});
+
+        //   signup(body)
+        //     .then(response=>{
+        //         this.setState({pendingApiCall:false});
+        //     }).catch(error=>{
+        //         this.setState({pendingApiCall:false})
+        //     });
+
+      try {
+            const response = await signup(body);
+        } catch (error) {
+           if(error.response.data.validationErrors){
+            this.setState({errors:error.response.data.validationErrors});
+           }
         }
-
-        this.setState({pendingApiCall:true});
-
-    //   signup(body)
-    //     .then(response=>{
-    //         this.setState({pendingApiCall:false});
-    //     }).catch(error=>{
-    //         this.setState({pendingApiCall:false})
-    //     });
-
-    try {
-
-        const response = await signup(body);
-    } catch (error) {
-       if(error.response.data.validationErrors){
-        this.setState({errors:error.response.data.validationErrors});
-       }
-
-    }
-    this.setState({pendingApiCall:false});
+        this.setState({pendingApiCall:false});
    }
 
-   onChangeLanguage = language =>{
-     const {i18n} = this.props;
-     i18n.changeLanguage(language);
-     changeLanguage(language);
-   }
+
 
     render() {
         const{pendingApiCall,errors} = this.state;
@@ -95,8 +89,7 @@ class UserSignupPage extends React.Component {
                         {t('Sign Up')}</button>
                 </div>
             </form>
-            <span onClick={()=>  this.onChangeLanguage('tr')} style={{cursor:'pointer'}} >TR  </span>
-            <span onClick={()=>  this.onChangeLanguage('en')}  style={{cursor:'pointer'}}>EN  </span>
+
             </div>
 
         );
