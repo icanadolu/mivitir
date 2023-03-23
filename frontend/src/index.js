@@ -12,8 +12,8 @@ import LangueageSelector from './components/LangueageSelector';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <div>
-  <LoginPage />
-  <LangueageSelector/>
+  <UserSignupPage/>
+  <LangueageSelector />
 
   </div>
 
