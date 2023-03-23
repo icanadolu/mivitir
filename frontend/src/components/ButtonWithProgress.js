@@ -11,6 +11,8 @@ const ButtonWithProgress = (props) => {
                      onClick={onClick}>
                         {pendingApiCall&& <span className="spinner-border spinner-border-sm" ></span>}
                         {text}</button>
+
+                        
         </div>
     );
 };
