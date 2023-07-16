@@ -1,5 +1,7 @@
-import { createStore } from 'redux';
+import { createStore,applyMiddleware, compose } from 'redux';
 import authReducer from './authReducer';
+import SecureLS from 'secure-ls';
+import thunk from 'redux-thunk';
 
 // const loggedInState = {
 //     isLoggedIn: true,
@@ -9,35 +11,56 @@ import authReducer from './authReducer';
 //     password: 'P4ssword',
 //   }
 
-  const configureStore = ()=>{
 
-    const hoaxAuth = localStorage.getItem('hoax-auth');
+const secureLs = new SecureLS();
 
-    let stateInLocalStorage={
-      isLoggedIn: false,
-      username: undefined,
-      displayName: undefined,
-      image: undefined,
-      password: undefined
-    }
+const getStateFromStorage = () => {
+  // const hoaxAuth = localStorage.getItem('hoax-auth');
+  const hoaxAuth = secureLs.get('hoax-auth');
 
-    if(hoaxAuth){
-      try {
-        
-        stateInLocalStorage = JSON.parse(hoaxAuth);
-      } catch (error) { }
-    }
 
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-   const store =  createStore(authReducer,stateInLocalStorage,composeEnhancers);
-
-   
-    
-   store.subscribe(()=>{
-      localStorage.setItem('hoax-auth',JSON.stringify(store.getState()));
-   });
-
-   return store;
+  let stateInLocalStorage = {
+    isLoggedIn: false,
+    username: undefined,
+    displayName: undefined,
+    image: undefined,
+    password: undefined
   }
 
-  export default configureStore;
+  if (hoaxAuth) {
+    try {
+
+      // stateInLocalStorage = JSON.parse(hoaxAuth);
+    
+      stateInLocalStorage = hoaxAuth;
+
+    } catch (error) { }
+  }
+  return stateInLocalStorage;
+}
+
+const updateStateInStorage=newState=>{
+  // localStorage.setItem('hoax-auth', JSON.stringify(newState));
+  secureLs.set('hoax-auth', newState);
+
+
+}
+
+const configureStore = () => {
+
+
+
+  //const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const store = createStore(authReducer, getStateFromStorage(), composeEnhancers(applyMiddleware(thunk)));
+
+
+
+  store.subscribe(() => {
+    updateStateInStorage(store.getState());
+  });
+
+  return store;
+}
+
+export default configureStore;
