@@ -6,29 +6,44 @@ import HomePage from "../pages/HomePage";
 import UserPage from "../pages/UserPage";
 import {HashRouter as Router,Route,Redirect,Switch}  from 'react-router-dom';
 import TopBar from "../components/TopBar";
+import {connect} from 'react-redux'
+import React, { Component } from 'react';
 
 
-function App() {
-  const isLoggedIn = false;
-  return (
-    <div >
-        <Router>
-          <TopBar/>
-            <Switch>
-              <Route exact path="/"  component={HomePage} />
-              <Route path="/login"  component={LoginPage} />
-              <Route path="/signup"  component={UserSignupPage} />
-              <Route path="/user/:username" component={UserPage}/>
-              <Redirect to="/"/>
-            </Switch>
-        </Router>
-         <LangueageSelector />
-    </div>
-   
+
+class App extends React.Component {
   
-
- 
-  );
+  render(){
+    const {isLoggedIn} =  this.props;
+    return (
+      <div >
+          <Router>
+            <TopBar/>
+              <Switch>
+                <Route exact path="/"  component={HomePage} />
+                { !isLoggedIn &&  <Route path="/login"  component={LoginPage} />}
+                <Route path="/signup"  component={UserSignupPage} />
+                <Route path="/user/:username" component={UserPage}/>
+                <Redirect to="/"/>
+              </Switch>
+          </Router>
+           <LangueageSelector />
+      </div>
+     
+    
+  
+   
+    );
+  }
 }
 
-export default App;
+
+
+const mapStateToProps = (store)=>{
+  return{
+    isLoggedIn: store.isLoggedIn
+  }
+}
+
+
+export default connect(mapStateToProps)(App) ;
