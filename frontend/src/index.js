@@ -5,10 +5,21 @@ import './bootstrap-override.scss';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
 import App from './container/App';
+import { createStoreHook, Provider } from 'react-redux';
+import configureStore from './redux/configureStore';
+// import AuthenticationContext from './shared/AuthenticationContext';
 
+
+
+
+const store = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <App/>
+  // <AuthenticationContext>
+  <Provider store={store}>
+    <App/>
+  </Provider>
+  // </AuthenticationContext>
 
 );
 
