@@ -9,6 +9,7 @@ import TopBar from "../components/TopBar";
 
 
 function App() {
+  const isLoggedIn = false;
   return (
     <div >
         <Router>
