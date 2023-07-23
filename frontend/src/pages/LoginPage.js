@@ -42,15 +42,7 @@ class LoginPage extends Component{
     });
 
     try{
-  //  const response =  await login(creds);
-  //  const authState ={
-  //    ...response.data ,
-  //    password
-  //   }   
-  //   dispatch( loginSuccess(authState) );
-
-  await dispatch(loginHandler(creds));
-
+     await dispatch(loginHandler(creds));
     push('/');
     
     }catch(apiError){
