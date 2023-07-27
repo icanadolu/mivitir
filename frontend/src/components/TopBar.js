@@ -1,85 +1,86 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import {Authentication} from '../shared/AuthenticationContext';
-import {connect} from 'react-redux';
-import {logoutSuccess}  from '../redux/authActions';
-class TopBar extends Component {
+import { useContext } from 'react';
+// import {connect} from 'react-redux';
+// import {logoutSuccess}  from '../redux/authActions';
 
-    // static contextType = Authentication;
 
-//    onClickLogout=()=>{
-   
-//     this.props.dispatch(logoutSuccess());
-//    }
-
-    render() {
+const TopBar=(props)=>{   
       
-        const {t,username,isLoggedIn,onlogoutSuccess} = this.props;
-       // const {state,onloginSuccess,onlogoutSuccess} = this.context; 
-      
-        let links = (
-            <ul className='navbar-nav ml-auto'>
-                
-            <li>
-                <Link className='nav-link' to="/login">
-                    {t('Login')}
-                </Link>
-            </li>
-            <li>
-                <Link className='nav-link' to="/signup" > {t('Sign Up')}</Link>
-            </li>
-        </ul>
-        );
+ const context = useContext(Authentication);   
+// const {t,username,isLoggedIn,onlogoutSuccess} = props;
 
-        if(isLoggedIn){
-            links = (
-                <ul className='navbar-nav ml-auto'>
-                    <li>
-                        <Link className="nav-link" to={`/user/${username}`}>
-                         {username}
-                        </Link>
-                   
-                </li>
-                    <li className='nav-link' onClick={onlogoutSuccess}>
-                        {t('logout')}
-                </li>
-            </ul>
-            )
-        }
+const {t} = props;
+const {onlogoutSuccess,state} = context;
+const{username,isLoggedIn} = state;
 
-        return (
-            <div className='shadow-sm bg-light mb-2'>
-                <nav className="navbar navbar-light  container navbar-expand">
-                        <Link className="navbar-brand" to="/">
-                            <img src={logo} width='60' alt='mivitir logo'/>Mivitir
-                        </Link>
-                        
-                    {links}
-               </nav>
-         </div>
-          
-        );
-  
-        
-    }
+
+ let links = (
+     <ul className='navbar-nav ml-auto'>
+         
+     <li>
+         <Link className='nav-link' to="/login">
+             {t('Login')}
+         </Link>
+     </li>
+     <li>
+         <Link className='nav-link' to="/signup" > {t('Sign Up')}</Link>
+     </li>
+ </ul>
+ );
+
+ if(isLoggedIn){
+     links = (
+         <ul className='navbar-nav ml-auto'>
+             <li>
+                 <Link className="nav-link" to={`/user/${username}`}>
+                  {username}
+                 </Link>
+            
+         </li>
+             <li className='nav-link' onClick={onlogoutSuccess}>
+                 {t('logout')}
+         </li>
+     </ul>
+     )
+ }
+
+    return (
+        <div className='shadow-sm bg-light mb-2'>
+            <nav className="navbar navbar-light  container navbar-expand">
+                    <Link className="navbar-brand" to="/">
+                        <img src={logo} width='60' alt='mivitir logo'/>Mivitir
+                    </Link>
+                    
+                {links}
+            </nav>
+    </div>
+    
+    );
+
+ 
 }
 
 const TopBarWithTranslation = withTranslation()(TopBar);
 
-const mapStateToProps = (store)=>{
-    return{
-      isLoggedIn: store.isLoggedIn,
-      username: store.username   
-    }
-}
+// const mapStateToProps = (store)=>{
+//     return{
+//       isLoggedIn: store.isLoggedIn,
+//       username: store.username   
+//     }
+// }
 
-const mapDispatchToProps = dispatch =>{
-    return{
-        onlogoutSuccess:()=> dispatch(logoutSuccess())
+// const mapDispatchToProps = dispatch =>{
+//     return{
+//         onlogoutSuccess:()=> dispatch(logoutSuccess())
         
-    }
-}
+//     }
+// }
 
-export default connect(mapStateToProps,mapDispatchToProps)(TopBarWithTranslation) ;
+// export default connect(mapStateToProps,mapDispatchToProps)(TopBarWithTranslation) ;
+
+
+export default TopBarWithTranslation;
