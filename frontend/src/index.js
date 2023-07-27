@@ -7,7 +7,7 @@ import './i18n';
 import App from './container/App';
 import { createStoreHook, Provider } from 'react-redux';
 import configureStore from './redux/configureStore';
-// import AuthenticationContext from './shared/AuthenticationContext';
+import AuthenticationContext from './shared/AuthenticationContext';
 
 
 
@@ -15,11 +15,11 @@ import configureStore from './redux/configureStore';
 const store = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <AuthenticationContext>
   <Provider store={store}>
+   <AuthenticationContext>
     <App/>
+  </AuthenticationContext>
   </Provider>
-  // </AuthenticationContext>
 
 );
 
