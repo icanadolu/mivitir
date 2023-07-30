@@ -1,12 +1,13 @@
 import React from 'react';
-import {withTranslation} from 'react-i18next'
+// import {withTranslation} from 'react-i18next'
+import {useTranslation} from 'react-i18next'
 import {changeLanguage} from '../api/apiCalls';
 
 const LangueageSelector = (props) =>{
-
-  const onChangeLanguage = language =>{
-    const {i18n} = props;
-    i18n.changeLanguage(language);
+const {i18n} = useTranslation();
+  
+const onChangeLanguage = language =>{
+      i18n.changeLanguage(language);
     changeLanguage(language);
   };
 
@@ -20,4 +21,6 @@ const LangueageSelector = (props) =>{
 };
 
 
-export default withTranslation()(LangueageSelector) ;
+// export default withTranslation()(LangueageSelector) ;
+export default LangueageSelector ;
+
