@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
-import { withRouter } from "react-router-dom/cjs/react-router-dom";
-import { Authentication } from "../shared/AuthenticationContext";
-// import {connect} from 'react-redux'
+import React from "react";
+// import { withRouter } from "react-router-dom/cjs/react-router-dom";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
+
+import {useSelector} from 'react-redux'
 
 const ProfileCard = (props)=>{
-    const context = useContext(Authentication)
+  const {username : loggedInUsername} = useSelector((store)=>({username: store.username}));
+  const routeParams = useParams();
 
-   const pathUserName = props.match.params.username;
+    // const pathUserName = props.match.params.username;
+    const pathUserName = routeParams.username;
+
   
    let message = 'We cannot edit';
-   if(pathUserName===context.state.username){
+   if(pathUserName===loggedInUsername){
     message = 'We can edit';
    }
     return(
@@ -21,12 +25,7 @@ const ProfileCard = (props)=>{
 
 
 
-// const mapStateToProps = (store)=>{
-//     return{
-//         loggedInUsername: store.username
-//     }
-//   }
+// export default  withRouter(ProfileCard);
+export default  ProfileCard;
 
-// export default connect(mapStateToProps)( withRouter(ProfileCard));
 
-export default withRouter(ProfileCard)
