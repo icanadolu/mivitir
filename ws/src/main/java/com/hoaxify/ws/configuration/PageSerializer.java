@@ -2,14 +2,13 @@ package com.hoaxify.ws.configuration;
 
 import java.io.IOException;
 
-import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.data.domain.Page;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-@JsonComponent // init olunca spirnge jaksonun bu komponutide kullanmasını söylüyoruz
+//@JsonComponent // init olunca spirnge jaksonun bu komponutide kullanmasını söylüyoruz
 public class PageSerializer extends JsonSerializer<Page<?>> {
 
 	@Override
