@@ -24,12 +24,14 @@ public class UserService {
 
 	}
 
-	public Page<UserProjection> getUsers(Pageable page) {
+	public Page<User> getUsers(Pageable page) {
 		// Pageable page = PageRequest.of(currentPage, pageSize);
-		// return userRepository.findAll(page);
+
 		// return userRepository.findAll();
 
-		return userRepository.getAllUsersProjection(page);
+		// return userRepository.getAllUsersProjection(page);
+
+		return userRepository.findAll(page);
 	}
 
 }

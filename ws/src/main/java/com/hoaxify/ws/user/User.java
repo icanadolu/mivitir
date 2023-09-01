@@ -13,9 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.hoaxify.ws.shared.Views;
-
 import lombok.Data;
 
 @Data
@@ -37,12 +34,12 @@ public class User implements UserDetails {
 	@Size(min = 4, max = 255)
 	// @Column(unique = true) custom hale getircegiz
 	@UniqueUsername
-	@JsonView(Views.Base.class)
+	// @JsonView(Views.Base.class)
 	private String username;
 
 	@NotNull
 	@Size(min = 4, max = 255)
-	@JsonView(Views.Base.class)
+	// @JsonView(Views.Base.class)
 	private String displayName;
 
 	@NotNull
@@ -54,7 +51,7 @@ public class User implements UserDetails {
 	 */
 
 	private String password;
-	@JsonView(Views.Base.class)
+	// @JsonView(Views.Base.class)
 	private String image;
 
 	@Override
