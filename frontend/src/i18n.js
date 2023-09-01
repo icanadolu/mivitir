@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 
 
+
 i18n.use(initReactI18next).init({
   resources:{
     en:{
@@ -13,7 +14,10 @@ i18n.use(initReactI18next).init({
         'Password': 'Password',
         'Password Repeat': 'Password Repeat',
         'Login': 'Login',
-        'logout':'logout'
+        'logout':'logout',
+        'Users':'Users',
+        'Next': 'next>',
+        'Previous' : '< previous'
       }
     },
     tr:{
@@ -25,7 +29,10 @@ i18n.use(initReactI18next).init({
         'Password': 'Şifre',
         'Password Repeat': 'Şifreyi Tekrarla',
         'Login': 'Giriş Yap',
-        'logout': 'Çıkış Yap'
+        'logout': 'Çıkış Yap',
+        'Users':'Kullanıcılar',
+        'Next' : "sonraki >",
+        'Previous' : '< önceki'
       }
     }
   },

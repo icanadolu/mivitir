@@ -3,7 +3,7 @@ import Input from '../components/Input'
 // import {withTranslation}  from 'react-i18next';
  import {useTranslation}  from 'react-i18next';
 import ButtonWithProgress from '../components/ButtonWithProgress';
-import { withApiProgress } from '../shared/ApiProgress';
+import { useApiProgress } from '../shared/ApiProgress';
 // import {connect} from 'react-redux'
  import {useDispatch} from 'react-redux'
 import {loginHandler} from '../redux/authActions'
@@ -23,7 +23,6 @@ import {loginHandler} from '../redux/authActions'
 
     event.preventDefault();
     // const {username,password} = this.state;
- 
     const creds ={
       username,
       password
@@ -46,7 +45,8 @@ import {loginHandler} from '../redux/authActions'
   }
 
   const {t} = useTranslation();
-  const {pendingApiCall} = props;
+  // const {pendingApiCall} = props;
+   const {pendingApiCall} = useApiProgress('/api/1.0/auth');
 
   const buttonEnabled =  username &&  password;
 
@@ -72,9 +72,7 @@ import {loginHandler} from '../redux/authActions'
         );
 }
 
-// const LoginPageWithTranslation = withTranslation()(LoginPage) ;
 
+// export default withApiProgress(LoginPage,'/api/1.0/auth');    
+export default LoginPage;
 
-
-// export default connect()(withApiProgress(LoginPage,'/api/1.0/auth'));
-export default withApiProgress(LoginPage,'/api/1.0/auth');    

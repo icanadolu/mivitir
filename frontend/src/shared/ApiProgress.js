@@ -1,6 +1,54 @@
 import React, { Component } from 'react';
 import axios  from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
+
+export const useApiProgress =(apiPath)=>{
+    const [pendingApiCall,setPendingApiCall] = useState(false);
+
+    useEffect(()=>{
+        let requestInterceptor,responseInterceptor;
+
+      const  updateApiCallFor = (url,inProgress) =>{
+            if(url === apiPath){
+              setPendingApiCall(inProgress);
+             }
+        }
+
+       const registerInterceptors =()=>{
+            requestInterceptor = axios.interceptors.request.use((request)=>{
+                  console.log('running request interceptor',apiPath)
+                updateApiCallFor(request.url,true);
+               return request;
+            });
+         
+          responseInterceptor =  axios.interceptors.response.use((response)=>{
+           
+            updateApiCallFor(response.config.url,false);
+             return response;
+            },(error)=>{
+                updateApiCallFor(error.config.url,false);
+             throw error;
+            });
+         }  
+
+
+        const unregisterInterceptors =()=>{
+            axios.interceptors.request.eject(requestInterceptor);
+            axios.interceptors.response.eject(responseInterceptor);
+        }
+          
+
+         registerInterceptors();
+
+         return function unmount(){
+            unregisterInterceptors();
+         }
+    })
+
+    return pendingApiCall;
+}
 
 export function withApiProgress(WrappedComponent, apiPath){
     return class  extends Component {
@@ -13,37 +61,36 @@ export function withApiProgress(WrappedComponent, apiPath){
     
     
         componentDidMount(){
-           this.requestInterceptor = axios.interceptors.request.use((request)=>{
-                // if(request.url ===this.props.path){
-                //     this.setState({pendingApiCall:true});
-    
-                // }
-                console.log('running request interceptor',apiPath)
+          this.registerInterceptors();
+        }
+
+        componentWillUnmount(){
+         this.unregisterInterceptors();
+        }   
+
+
+         registerInterceptors =()=>{
+            this.requestInterceptor = axios.interceptors.request.use((request)=>{
+                  console.log('running request interceptor',apiPath)
                 this.updateApiCallFor(request.url,true);
                return request;
             });
          
           this.responseInterceptor =  axios.interceptors.response.use((response)=>{
-            //    if(response.config.url === this.props.path){
-            //        this.setState({pendingApiCall:false});
-                    
-            //     }
+           
             this.updateApiCallFor(response.config.url,false);
              return response;
             },(error)=>{
-                // if(error.config.url === this.props.path){
-                //     this.setState({pendingApiCall:false});
-                     
-                //  }
                 this.updateApiCallFor(error.config.url,false);
              throw error;
             });
-           }
+         }  
 
-        componentWillUnmount(){
-            axios.interceptors.request.eject(this.requestInterceptor);
-            axios.interceptors.response.eject(this.responseInterceptor);
-        }   
+    unregisterInterceptors =()=>{
+        axios.interceptors.request.eject(this.requestInterceptor);
+        axios.interceptors.response.eject(this.responseInterceptor);
+    }
+      
     
     updateApiCallFor = (url,inProgress) =>{
         if(url === apiPath){
